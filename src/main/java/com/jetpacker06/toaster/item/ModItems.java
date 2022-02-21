@@ -15,18 +15,16 @@ public class ModItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, Toaster.MOD_ID);
 //TOAST
     public static final RegistryObject<Item> TOASTED_BREAD = ITEMS.register("toasted_bread", () -> new Item(
-            new Item.Properties()
+        new Item.Properties()
             .tab(CreativeModeTab.TAB_FOOD)
             .food(new FoodProperties.Builder().nutrition(8).saturationMod(8).build())
-
             ));
 //BREAD SLICE
-public static final RegistryObject<Item> BREAD_SLICE = ITEMS.register("bread_slice", () -> new Item(
+    public static final RegistryObject<Item> BREAD_SLICE = ITEMS.register("bread_slice", () -> new Item(
         new Item.Properties()
-                .tab(CreativeModeTab.TAB_FOOD)
-                .food(new FoodProperties.Builder().nutrition(2).saturationMod(8).build())
-
-));
+            .tab(CreativeModeTab.TAB_FOOD)
+            .food(new FoodProperties.Builder().nutrition(2).saturationMod(8).build())
+            ));
 
     public static void Register(IEventBus eventBus) {
         ITEMS.register(eventBus);
