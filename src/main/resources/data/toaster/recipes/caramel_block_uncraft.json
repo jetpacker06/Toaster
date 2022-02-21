@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "toaster:caramel_block"
+    }
+  },
+  "result": {
+    "item": "toaster:caramel_cube",
+    "count": 9
+  }
+}

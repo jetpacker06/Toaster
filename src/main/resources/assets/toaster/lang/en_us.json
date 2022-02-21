@@ -4,5 +4,6 @@
   "item.toaster.caramel_cube": "Caramel Cube",
   "item.toaster.caramel_apple": "Caramel Apple",
   "item.toaster.baked_caramel_apple": "Baked Caramel Apple",
-  "block.toaster.caramel_block": "Caramel Block"
+  "block.toaster.caramel_block": "Caramel Block",
+  "itemGroup.toaster": "Toaster Items"
 }
