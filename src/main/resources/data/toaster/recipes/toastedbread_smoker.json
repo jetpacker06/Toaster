@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "minecraft:bread"
+  },
+  "result": "toaster:toasted_bread",
+  "experience": 0.1,
+  "cookingtime": 100
+}
