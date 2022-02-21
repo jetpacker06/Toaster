@@ -25,7 +25,12 @@ public class ModItems {
             .tab(CreativeModeTab.TAB_FOOD)
             .food(new FoodProperties.Builder().nutrition(2).saturationMod(8).build())
             ));
-
+//CARAMEL CUBE
+    public static final RegistryObject<Item> CARAMEL_CUBE = ITEMS.register("caramel_cube", () -> new Item(
+        new Item.Properties()
+                .tab(CreativeModeTab.TAB_FOOD)
+                .food(new FoodProperties.Builder().nutrition(2).saturationMod(8).build())
+));
     public static void Register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }
