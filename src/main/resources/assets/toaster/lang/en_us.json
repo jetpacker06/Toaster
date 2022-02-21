@@ -1,5 +1,8 @@
 {
   "item.toaster.toasted_bread": "Toasted Bread",
   "item.toaster.bread_slice": "Slice of Bread",
-  "item.toaster.caramel_cube": "Caramel Cube"
+  "item.toaster.caramel_cube": "Caramel Cube",
+  "item.toaster.caramel_apple": "Caramel Apple",
+  "item.toaster.baked_caramel_apple": "Baked Caramel Apple",
+  "block.toaster.caramel_block": "Caramel Block"
 }

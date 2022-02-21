@@ -1,5 +1,6 @@
 package com.jetpacker06.toaster;
 
+import com.jetpacker06.toaster.block.ModBlocks;
 import com.jetpacker06.toaster.item.ModItems;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -28,7 +29,8 @@ public class Toaster {
 
     public Toaster() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        ModItems.Register(eventBus);
+        ModItems.register(eventBus);
+        ModBlocks.register(eventBus);
         eventBus.addListener(this::setup);
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "  #",
+    " A ",
+    "/  "
+  ],
+  "key": {
+    "#": {
+      "item": "toaster:caramel_cube"
+    },
+    "A": {
+      "item": "minecraft:apple"
+    },
+    "/": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "toaster:caramel_apple",
+    "count": 1
+  }
+}

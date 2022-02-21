@@ -30,8 +30,21 @@ public class ModItems {
         new Item.Properties()
                 .tab(CreativeModeTab.TAB_FOOD)
                 .food(new FoodProperties.Builder().nutrition(2).saturationMod(8).build())
-));
-    public static void Register(IEventBus eventBus) {
+            ));
+//CARAMEL APPLE
+    public static final RegistryObject<Item> CARAMEL_APPLE = ITEMS.register("caramel_apple", () -> new Item(
+        new Item.Properties()
+                .tab(CreativeModeTab.TAB_FOOD)
+                .food(new FoodProperties.Builder().nutrition(2).saturationMod(8).build())
+            ));
+//BAKED CARAMEL APPLE
+    public static final RegistryObject<Item> BAKED_CARAMEL_APPLE = ITEMS.register("baked_caramel_apple", () -> new Item(
+        new Item.Properties()
+                .tab(CreativeModeTab.TAB_FOOD)
+                .food(new FoodProperties.Builder().nutrition(2).saturationMod(8).build())
+)           );
+
+    public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }
 }
