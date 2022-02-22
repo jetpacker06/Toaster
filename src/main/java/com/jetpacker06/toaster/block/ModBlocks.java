@@ -28,10 +28,18 @@ public class ModBlocks {
 
             ), ModCreativeModeTab.TOASTER
         );
+//TOASTER BLOCK
+public static final RegistryObject<Block> TOASTER = registerBlock("toaster",
+        () -> new Block(BlockBehaviour.Properties.of(Material.METAL)
+            .strength(6f)
+            .sound(SoundType.METAL)
+
+            ), ModCreativeModeTab.TOASTER
+        );
 
 
 
-
+//misc methods
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
         registerBlockItem(name, toReturn, tab);
