@@ -39,6 +39,12 @@ public static final RegistryObject<Block> TOASTER = registerBlock("toaster",
 
             ), ModCreativeModeTab.TOASTER
         );
+//CHURN BLOCK
+    public static final RegistryObject<Block> CHURN = registerBlock("churn",
+        () -> new ChurnBlock(BlockBehaviour.Properties.of(Material.WOOD)
+            .strength(6f)),
+
+            ModCreativeModeTab.TOASTER);
 
 
 
