@@ -1,4 +1,4 @@
-package com.jetpacker06.toaster.block;
+package com.jetpacker06.toaster.block.advanced;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -39,9 +39,7 @@ public class ChurnBlock extends Block {
             Block.box(6, 2, 11, 10, 7, 12),
             Block.box(5, 14, 6, 11, 15, 10),
             Block.box(6, 14, 5, 10, 15, 6),
-            Block.box(6, 14, 10, 10, 15, 11),
-            Block.box(5, 21, 7, 11, 23, 9),
-            Block.box(7, 15, 7, 9, 21, 9)
+            Block.box(6, 14, 10, 10, 15, 11)
     ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR));
     @Override
     public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {

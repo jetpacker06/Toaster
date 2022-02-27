@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "toaster:block/toasterwest"}
+    "": { "model": "toaster:block/toaster"}
   }
 }

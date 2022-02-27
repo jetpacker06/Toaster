@@ -1,4 +1,4 @@
-package com.jetpacker06.toaster.block;
+package com.jetpacker06.toaster.block.advanced;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -31,12 +31,12 @@ public class ToasterBlock extends Block {
     }
     private static final Optional<VoxelShape> voxelShape = Stream.of(
             Block.box(4, 0, 4, 12, 1, 12),
-            Block.box(3, 0, 4, 4, 7, 12),
-            Block.box(12, 0, 4, 13, 7, 12),
-            Block.box(4, 1, 10, 12, 7, 12),
-            Block.box(4, 1, 7, 12, 7, 9),
-            Block.box(4, 1, 4, 12, 7, 6)
-             ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR));
+            Block.box(4, 0, 3, 12, 7, 4),
+            Block.box(4, 0, 12, 12, 7, 13),
+            Block.box(10, 1, 4, 12, 7, 12),
+            Block.box(4, 1, 4, 6, 7, 12),
+            Block.box(7, 1, 4, 9, 7, 12)
+    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR));
     private static final Optional<VoxelShape> rotatedVoxelShape = Stream.of(
             Block.box(4, 0, 4, 12, 1, 12),
             Block.box(3, 0, 4, 4, 7, 12),

@@ -1,13 +1,14 @@
 package com.jetpacker06.toaster.block;
 
 import com.jetpacker06.toaster.Toaster;
+import com.jetpacker06.toaster.block.advanced.ChurnBlock;
+import com.jetpacker06.toaster.block.advanced.ToasterBlock;
 import com.jetpacker06.toaster.item.ModCreativeModeTab;
 import com.jetpacker06.toaster.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
