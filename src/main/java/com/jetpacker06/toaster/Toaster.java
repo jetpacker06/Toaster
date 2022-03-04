@@ -1,6 +1,7 @@
 package com.jetpacker06.toaster;
 
 import com.jetpacker06.toaster.block.ModBlocks;
+import com.jetpacker06.toaster.fluid.ModFluids;
 import com.jetpacker06.toaster.item.ModItems;
 import com.jetpacker06.toaster.setup.Config;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -26,14 +27,19 @@ public class Toaster {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModItems.register(eventBus);
         ModBlocks.register(eventBus);
+        ModFluids.register(eventBus);
         Config.register();
         eventBus.addListener(this::setup);
+        eventBus.addListener(this::clientSetup);
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
-
     private void clientSetup(final FMLClientSetupEvent event) {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.TOASTER.get(), RenderType.cutout());
+
+        ItemBlockRenderTypes.setRenderLayer(ModFluids.BUTTER_FLUID.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(ModFluids.BUTTER_BLOCK.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(ModFluids.BUTTER_FLOWING.get(), RenderType.translucent());
     }
 
 
@@ -42,5 +48,6 @@ public class Toaster {
         // some preinit code
         LOGGER.info("HELLO FROM PREINIT");
         LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+
     }
 }
