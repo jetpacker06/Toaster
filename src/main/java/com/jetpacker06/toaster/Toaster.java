@@ -36,7 +36,6 @@ public class Toaster {
     }
     private void clientSetup(final FMLClientSetupEvent event) {
         ItemBlockRenderTypes.setRenderLayer(ModBlocks.TOASTER.get(), RenderType.cutout());
-
         ItemBlockRenderTypes.setRenderLayer(ModFluids.BUTTER_FLUID.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModFluids.BUTTER_BLOCK.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModFluids.BUTTER_FLOWING.get(), RenderType.translucent());
