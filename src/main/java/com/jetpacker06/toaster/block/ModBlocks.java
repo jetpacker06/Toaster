@@ -23,33 +23,30 @@ import java.util.function.Supplier;
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, Toaster.MOD_ID);
-//CARAMEL BLOCK
+    //begin blocks
+
+    //Caramel Block
     public static final RegistryObject<Block> CARAMEL_BLOCK = registerBlock("caramel_block",
         () -> new Block(BlockBehaviour.Properties.of(Material.DIRT)
             .strength(0.5f)
             .sound(SoundType.HONEY_BLOCK)
 
-            ), ModCreativeModeTab.TOASTER
-        );
-
-//TOASTER BLOCK
-public static final RegistryObject<Block> TOASTER = registerBlock("toaster",
+            ), ModCreativeModeTab.TOASTER);
+    //Toaster
+    public static final RegistryObject<Block> TOASTER = registerBlock("toaster",
         () -> new ToasterBlock(BlockBehaviour.Properties.of(Material.METAL)
             .strength(6f)
             .sound(SoundType.METAL)
 
-            ), ModCreativeModeTab.TOASTER
-        );
-//CHURN BLOCK
+            ), ModCreativeModeTab.TOASTER);
+    //Churn
     public static final RegistryObject<Block> CHURN = registerBlock("churn",
         () -> new ChurnBlock(BlockBehaviour.Properties.of(Material.WOOD)
-            .strength(6f)),
+            .strength(6f)
 
-            ModCreativeModeTab.TOASTER);
+            ), ModCreativeModeTab.TOASTER);
 
-
-
-//misc methods
+    //end blocks
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
         registerBlockItem(name, toReturn, tab);
