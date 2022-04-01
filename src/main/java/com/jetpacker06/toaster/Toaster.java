@@ -1,9 +1,11 @@
 package com.jetpacker06.toaster;
 
 import com.jetpacker06.toaster.block.ModBlocks;
-import com.jetpacker06.toaster.block.entity.BlockEntities;
+import com.jetpacker06.toaster.block.entity.ModBlockEntities;
 import com.jetpacker06.toaster.fluid.ModFluids;
 import com.jetpacker06.toaster.item.ModItems;
+import com.jetpacker06.toaster.screen.ModMenuTypes;
+import com.jetpacker06.toaster.screen.ToasterScreen;
 import com.jetpacker06.toaster.setup.Config;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -31,8 +33,8 @@ public class Toaster {
         ModBlocks.register(eventBus);
         ModFluids.register(eventBus);
         Config.register();
-        //ModMenuTypes.register(eventBus);
-        BlockEntities.register(eventBus);
+        ModMenuTypes.register(eventBus);
+        ModBlockEntities.register(eventBus);
 
         eventBus.addListener(this::setup);
         eventBus.addListener(this::clientSetup);
@@ -44,7 +46,7 @@ public class Toaster {
         ItemBlockRenderTypes.setRenderLayer(ModFluids.BUTTER_FLUID.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModFluids.BUTTER_BLOCK.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(ModFluids.BUTTER_FLOWING.get(), RenderType.translucent());
-        //MenuScreens.register(ModMenuTypes.TOASTER_MENU.get(), ToasterScreen::new);
+        MenuScreens.register(ModMenuTypes.TOASTER_MENU.get(), ToasterScreen::new);
     }
 
 

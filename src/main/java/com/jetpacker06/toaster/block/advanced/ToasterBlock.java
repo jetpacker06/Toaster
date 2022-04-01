@@ -1,6 +1,6 @@
 package com.jetpacker06.toaster.block.advanced;
 
-import com.jetpacker06.toaster.block.entity.BlockEntities;
+import com.jetpacker06.toaster.block.entity.ModBlockEntities;
 import com.jetpacker06.toaster.block.entity.ToasterBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -98,6 +98,6 @@ public class ToasterBlock extends BaseEntityBlock implements EntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        return createTickerHelper(pBlockEntityType, BlockEntities.TOASTER.get(), ToasterBlockEntity::tick);
+        return createTickerHelper(pBlockEntityType, ModBlockEntities.TOASTER.get(), ToasterBlockEntity::tick);
     }
 }
