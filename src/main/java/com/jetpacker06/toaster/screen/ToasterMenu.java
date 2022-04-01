@@ -36,10 +36,10 @@ public class ToasterMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
 
         this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-            this.addSlot(new ModFuelSlot(handler, 0, 18, 50));
-            this.addSlot(new SlotItemHandler(handler, 1, 66, 16));
-            this.addSlot(new SlotItemHandler(handler, 2, 66, 50));
-            this.addSlot(new ModResultSlot(handler, 3, 114, 33));
+            this.addSlot(new ModFuelSlot(handler, 0, 18, 33));//fuel
+            this.addSlot(new SlotItemHandler(handler, 1, 66, 19));//input 1
+            this.addSlot(new SlotItemHandler(handler, 2, 66, 45));//input 2
+            this.addSlot(new ModResultSlot(handler, 3, 114, 19));//output 1
         });
     }
 

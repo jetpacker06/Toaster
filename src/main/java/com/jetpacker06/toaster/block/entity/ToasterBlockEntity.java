@@ -44,7 +44,7 @@ public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
 
     @Override
     public Component getDisplayName() {
-        return new TextComponent("Cobalt Blaster");
+        return new TextComponent("Toaster");
     }
 
     @Nullable
