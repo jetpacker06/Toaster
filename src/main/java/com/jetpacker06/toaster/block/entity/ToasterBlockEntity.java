@@ -1,6 +1,6 @@
 package com.jetpacker06.toaster.block.entity;
 
-import com.jetpacker06.toaster.item.ModItems;
+import com.jetpacker06.toaster.fluid.item.ModItems;
 import com.jetpacker06.toaster.screen.ToasterMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

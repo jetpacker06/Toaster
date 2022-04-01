@@ -1,15 +1,14 @@
 package com.jetpacker06.toaster.block;
 
 import com.jetpacker06.toaster.Toaster;
-import com.jetpacker06.toaster.block.advanced.ChurnBlock;
-import com.jetpacker06.toaster.block.advanced.ToasterBlock;
-import com.jetpacker06.toaster.item.ModCreativeModeTab;
-import com.jetpacker06.toaster.item.ModItems;
+import com.jetpacker06.toaster.block.custom.ChurnBlock;
+import com.jetpacker06.toaster.block.custom.ToasterBlock;
+import com.jetpacker06.toaster.fluid.item.ModCreativeModeTab;
+import com.jetpacker06.toaster.fluid.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -27,7 +26,7 @@ public class ModBlocks {
 
     //Caramel Block
     public static final RegistryObject<Block> CARAMEL_BLOCK = registerBlock("caramel_block",
-        () -> new Block(BlockBehaviour.Properties.of(Material.DIRT)
+        () -> new SlabBlock(BlockBehaviour.Properties.of(Material.DIRT)
             .strength(0.5f)
             .sound(SoundType.HONEY_BLOCK)
 

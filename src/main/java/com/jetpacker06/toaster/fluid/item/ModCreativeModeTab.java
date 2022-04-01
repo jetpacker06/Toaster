@@ -1,4 +1,4 @@
-package com.jetpacker06.toaster.item;
+package com.jetpacker06.toaster.fluid.item;
 
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;

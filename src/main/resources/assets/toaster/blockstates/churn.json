@@ -1,5 +1,20 @@
 {
   "variants": {
-    "": { "model": "toaster:block/churn"}
+    "facing=north": {
+      "model": "toaster:block/churn",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "toaster:block/churn",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "toaster:block/churn",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "toaster:block/churn",
+      "y": 270
+    }
   }
 }

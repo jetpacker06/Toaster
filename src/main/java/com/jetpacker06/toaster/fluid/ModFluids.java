@@ -1,8 +1,7 @@
 package com.jetpacker06.toaster.fluid;
 
-import com.jetpacker06.toaster.Toaster;
 import com.jetpacker06.toaster.block.ModBlocks;
-import com.jetpacker06.toaster.item.ModItems;
+import com.jetpacker06.toaster.fluid.item.ModItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.LiquidBlock;

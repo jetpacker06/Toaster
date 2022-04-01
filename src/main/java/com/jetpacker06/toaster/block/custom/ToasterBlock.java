@@ -1,4 +1,4 @@
-package com.jetpacker06.toaster.block.advanced;
+package com.jetpacker06.toaster.block.custom;
 
 import com.jetpacker06.toaster.block.entity.ModBlockEntities;
 import com.jetpacker06.toaster.block.entity.ToasterBlockEntity;
@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -15,6 +16,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -30,11 +33,28 @@ public class ToasterBlock extends BaseEntityBlock implements EntityBlock {
     public ToasterBlock(Properties properties) {
         super(properties);
     }
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return voxelShape.orElse(Shapes.block());
+        switch (pState.getValue(FACING)) {
+            case NORTH:
+            case SOUTH:
+                return voxelShape.orElse(Shapes.block());
+            case EAST:
+            case WEST:
+                return rotatedVoxelShape.orElse(Shapes.block());
+            default: return Shapes.block();
+        }
     }
+    private static final Optional<VoxelShape> rotatedVoxelShape = Stream.of(
+            Block.box(4, 0, 4, 12, 1, 12),
+            Block.box(3, 0, 4, 4, 7, 12),
+            Block.box(12, 0, 4, 13, 7, 12),
+            Block.box(4, 1, 10, 12, 7, 12),
+            Block.box(4, 1, 7, 12, 7, 9),
+            Block.box(4, 1, 4, 12, 7, 6)
+    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR));
     private static final Optional<VoxelShape> voxelShape = Stream.of(
             Block.box(4, 0, 4, 12, 1, 12),
             Block.box(4, 0, 3, 12, 7, 4),
@@ -43,18 +63,23 @@ public class ToasterBlock extends BaseEntityBlock implements EntityBlock {
             Block.box(4, 1, 4, 6, 7, 12),
             Block.box(7, 1, 4, 9, 7, 12)
     ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR));
-    private static final Optional<VoxelShape> rotatedVoxelShape = Stream.of(
-            Block.box(4, 0, 4, 12, 1, 12),
-            Block.box(3, 0, 4, 4, 7, 12),
-            Block.box(12, 0, 4, 13, 7, 12),
-            Block.box(4, 1, 10, 12, 7, 12),
-            Block.box(4, 1, 7, 12, 7, 9),
-            Block.box(4, 1, 4, 12, 7, 6)
-              ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR));
-
+    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
+    }
+    public BlockState rotate(BlockState pState, Rotation pRotation) {
+        return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING)));
+    }
     @Override
     public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return voxelShape.orElse(Shapes.block());
+        switch (pState.getValue(FACING)) {
+            case NORTH:
+            case SOUTH:
+                return voxelShape.orElse(Shapes.block());
+            case EAST:
+            case WEST:
+                return rotatedVoxelShape.orElse(Shapes.block());
+            default: return Shapes.block();
+        }
     }
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos,
@@ -99,5 +124,8 @@ public class ToasterBlock extends BaseEntityBlock implements EntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
         return createTickerHelper(pBlockEntityType, ModBlockEntities.TOASTER.get(), ToasterBlockEntity::tick);
+    }
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(FACING);
     }
 }

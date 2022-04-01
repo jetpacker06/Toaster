@@ -1,6 +1,5 @@
-package com.jetpacker06.toaster.setup;
+package com.jetpacker06.toaster.config;
 
-import net.minecraftforge.common.ForgeConfig;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class Config {

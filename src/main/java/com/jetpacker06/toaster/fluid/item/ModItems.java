@@ -1,4 +1,4 @@
-package com.jetpacker06.toaster.item;
+package com.jetpacker06.toaster.fluid.item;
 
 import com.jetpacker06.toaster.Toaster;
 import com.jetpacker06.toaster.fluid.ModFluids;
@@ -6,7 +6,6 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
