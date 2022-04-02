@@ -1,0 +1,14 @@
+{
+  "type": "toaster:toasting",
+  "ingredients": [
+    {
+      "item": "toaster:bread_slice"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    }
+  ],
+  "output": {
+    "item": "toaster:toast"
+  }
+}

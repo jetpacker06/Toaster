@@ -3,8 +3,8 @@ package com.jetpacker06.toaster.block;
 import com.jetpacker06.toaster.Toaster;
 import com.jetpacker06.toaster.block.custom.ChurnBlock;
 import com.jetpacker06.toaster.block.custom.ToasterBlock;
-import com.jetpacker06.toaster.fluid.item.ModCreativeModeTab;
-import com.jetpacker06.toaster.fluid.item.ModItems;
+import com.jetpacker06.toaster.item.ItemGroup;
+import com.jetpacker06.toaster.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -30,20 +30,20 @@ public class ModBlocks {
             .strength(0.5f)
             .sound(SoundType.HONEY_BLOCK)
 
-            ), ModCreativeModeTab.TOASTER);
+            ), ItemGroup.TOASTER);
     //Toaster
     public static final RegistryObject<Block> TOASTER = registerBlock("toaster",
         () -> new ToasterBlock(BlockBehaviour.Properties.of(Material.METAL)
             .strength(6f)
             .sound(SoundType.METAL)
 
-            ), ModCreativeModeTab.TOASTER);
+            ), ItemGroup.TOASTER);
     //Churn
     public static final RegistryObject<Block> CHURN = registerBlock("churn",
         () -> new ChurnBlock(BlockBehaviour.Properties.of(Material.WOOD)
             .strength(6f)
 
-            ), ModCreativeModeTab.TOASTER);
+            ), ItemGroup.TOASTER);
 
     //end blocks
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block, CreativeModeTab tab) {

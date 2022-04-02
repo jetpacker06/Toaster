@@ -3,10 +3,10 @@ package com.jetpacker06.toaster;
 import com.jetpacker06.toaster.block.ModBlocks;
 import com.jetpacker06.toaster.block.entity.ModBlockEntities;
 import com.jetpacker06.toaster.fluid.ModFluids;
-import com.jetpacker06.toaster.fluid.item.ModItems;
+import com.jetpacker06.toaster.item.ModItems;
+import com.jetpacker06.toaster.recipe.ModRecipes;
 import com.jetpacker06.toaster.screen.ModMenuTypes;
 import com.jetpacker06.toaster.screen.ToasterScreen;
-import com.jetpacker06.toaster.config.Config;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -32,7 +32,7 @@ public class Toaster {
         ModItems.register(eventBus);
         ModBlocks.register(eventBus);
         ModFluids.register(eventBus);
-        Config.register();
+        ModRecipes.register(eventBus);
         ModMenuTypes.register(eventBus);
         ModBlockEntities.register(eventBus);
 
