@@ -10,25 +10,28 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
-import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
 public class ToasterRecipe implements Recipe<SimpleContainer> {
     private final ResourceLocation id;
     private final ItemStack output;
-    private final ItemStack input;
-    public ToasterRecipe(ResourceLocation id, ItemStack output, ItemStack input) {
+    private final NonNullList<Ingredient> recipeItems;
+
+    public ToasterRecipe(ResourceLocation id, ItemStack output,
+                               NonNullList<Ingredient> recipeItems) {
         this.id = id;
         this.output = output;
-        this.input = input;
+        this.recipeItems = recipeItems;
     }
 
     @Override
     public boolean matches(SimpleContainer pContainer, net.minecraft.world.level.Level pLevel) {
+        if(recipeItems.get(0).test(pContainer.getItem(1))) {
+            return recipeItems.get(1).test(pContainer.getItem(2));
+        }
 
-            //return .test(pContainer.getItem(2));
-return true;
+        return false;
     }
 
     @Override
@@ -62,8 +65,8 @@ return true;
     }
 
     public static class Type implements RecipeType<ToasterRecipe> {
-        public Type() { }
-        public static Type INSTANCE = new Type();
+        private Type() { }
+        public static final Type INSTANCE = new Type();
         public static final String ID = "toasting";
     }
 
@@ -74,16 +77,27 @@ return true;
         @Override
         public ToasterRecipe fromJson(ResourceLocation id, JsonObject json) {
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
-            ItemStack input = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "input"));
 
-            return new ToasterRecipe(id, output, input);
+            JsonArray ingredients = GsonHelper.getAsJsonArray(json, "ingredients");
+            NonNullList<Ingredient> inputs = NonNullList.withSize(2, Ingredient.EMPTY);
+
+            for (int i = 0; i < inputs.size(); i++) {
+                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
+            }
+
+            return new ToasterRecipe(id, output, inputs);
         }
 
         @Override
         public ToasterRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
-            ItemStack input = buf.readItem();
+            NonNullList<Ingredient> inputs = NonNullList.withSize(buf.readInt(), Ingredient.EMPTY);
+
+            for (int i = 0; i < inputs.size(); i++) {
+                inputs.set(i, Ingredient.fromNetwork(buf));
+            }
+
             ItemStack output = buf.readItem();
-            return new ToasterRecipe(id, output, input);
+            return new ToasterRecipe(id, output, inputs);
         }
 
         @Override

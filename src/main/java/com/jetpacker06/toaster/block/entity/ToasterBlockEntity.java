@@ -27,25 +27,24 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
 public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
-    private final ItemStackHandler  itemHandler = new ItemStackHandler(3) {
+    private final ItemStackHandler itemHandler = new ItemStackHandler(4) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
         }
     };
+    private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
+
     protected final ContainerData data;
     private int progress = 0;
     private int maxProgress = 72;
     private int fuelTime = 0;
     private int maxFuelTime = 0;
-    private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 
     public ToasterBlockEntity(BlockPos pWorldPosition, BlockState pBlockState) {
         super(ModBlockEntities.TOASTER.get(), pWorldPosition, pBlockState);
@@ -72,16 +71,9 @@ public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
             public int getCount() {
                 return 4;
             }
-    };
-}
-    @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
-        tag.put("inventory", itemHandler.serializeNBT());
-        tag.putInt("blaster.progress", progress);
-        tag.putInt("blaster.fuelTime", fuelTime);
-        tag.putInt("blaster.maxFuelTime", maxFuelTime);
-        super.saveAdditional(tag);
+        };
     }
+
     @Override
     public Component getDisplayName() {
         return new TextComponent("Toaster");
@@ -90,7 +82,7 @@ public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory, Player pPlayer) {
-        return new ToasterMenu(pContainerId, pInventory, this, this.data    );
+        return new ToasterMenu(pContainerId, pInventory, this, this.data);
     }
 
     @Nonnull
@@ -116,6 +108,15 @@ public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     @Override
+    protected void saveAdditional(@NotNull CompoundTag tag) {
+        tag.put("inventory", itemHandler.serializeNBT());
+        tag.putInt("blaster.progress", progress);
+        tag.putInt("blaster.fuelTime", fuelTime);
+        tag.putInt("blaster.maxFuelTime", maxFuelTime);
+        super.saveAdditional(tag);
+    }
+
+    @Override
     public void load(CompoundTag nbt) {
         super.load(nbt);
         itemHandler.deserializeNBT(nbt.getCompound("inventory"));
@@ -133,12 +134,20 @@ public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
         Containers.dropContents(this.level, this.worldPosition, inventory);
     }
 
+    private void consumeFuel() {
+        if(!itemHandler.getStackInSlot(0).isEmpty()) {
+            this.fuelTime = ForgeHooks.getBurnTime(this.itemHandler.extractItem(0, 1, false),
+                    RecipeType.SMELTING);
+            this.maxFuelTime = this.fuelTime;
+        }
+    }
+
     public static void tick(Level pLevel, BlockPos pPos, BlockState pState, ToasterBlockEntity pBlockEntity) {
         if(isConsumingFuel(pBlockEntity)) {
             pBlockEntity.fuelTime--;
         }
 
-        if(topHasRecipe(pBlockEntity)) {
+        if(hasRecipe(pBlockEntity)) {
             if(hasFuelInFuelSlot(pBlockEntity) && !isConsumingFuel(pBlockEntity)) {
                 pBlockEntity.consumeFuel();
                 setChanged(pLevel, pPos, pState);
@@ -155,13 +164,7 @@ public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
             setChanged(pLevel, pPos, pState);
         }
     }
-    private void consumeFuel() {
-        if(!itemHandler.getStackInSlot(0).isEmpty()) {
-            this.fuelTime = ForgeHooks.getBurnTime(this.itemHandler.extractItem(0, 1, false),
-                    RecipeType.SMELTING);
-            this.maxFuelTime = this.fuelTime;
-        }
-    }
+
     private static boolean hasFuelInFuelSlot(ToasterBlockEntity entity) {
         return !entity.itemHandler.getStackInSlot(0).isEmpty();
     }
@@ -170,24 +173,7 @@ public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
         return entity.fuelTime > 0;
     }
 
-    private static boolean topHasRecipe(ToasterBlockEntity entity) {
-        Level level = entity.level;
-        Logger logger = LogManager.getLogger();
-       // logger.info("This will probably work");
-        SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
-        //inventory.setItem(0, entity.itemHandler.getStackInSlot(1));
-        inventory.setItem(0, entity.itemHandler.getStackInSlot(1));
-
-
-        Optional<ToasterRecipe> match = level.getRecipeManager().getRecipeFor(ToasterRecipe.Type.INSTANCE, inventory, level);
-        if (!match.isPresent()) {
-            logger.info("If not match returns");
-        }
-        return match.isPresent() && canInsertAmountIntoTopOutputSlot(inventory)
-                && canInsertItemIntoTopOutputSlot(inventory, match.get().getResultItem());
-    }
-
-    private static boolean bottomHasRecipe(ToasterBlockEntity entity) {
+    private static boolean hasRecipe(ToasterBlockEntity entity) {
         Level level = entity.level;
         SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
         for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
@@ -197,8 +183,8 @@ public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
         Optional<ToasterRecipe> match = level.getRecipeManager()
                 .getRecipeFor(ToasterRecipe.Type.INSTANCE, inventory, level);
 
-        return match.isPresent() && canInsertAmountIntoTopOutputSlot(inventory)
-                && canInsertItemIntoTopOutputSlot(inventory, match.get().getResultItem());
+        return match.isPresent() && canInsertAmountIntoOutputSlot(inventory)
+                && canInsertItemIntoOutputSlot(inventory, match.get().getResultItem());
     }
 
     private static void craftItem(ToasterBlockEntity entity) {
@@ -215,31 +201,22 @@ public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
             entity.itemHandler.extractItem(1,1, false);
             entity.itemHandler.extractItem(2,1, false);
 
-            entity.itemHandler.setStackInSlot(2, new ItemStack(match.get().getResultItem().getItem(),
-                    entity.itemHandler.getStackInSlot(2).getCount() + 1));
+            entity.itemHandler.setStackInSlot(3, new ItemStack(match.get().getResultItem().getItem(),
+                    entity.itemHandler.getStackInSlot(3).getCount() + 1));
 
             entity.resetProgress();
         }
     }
 
-
     private void resetProgress() {
         this.progress = 0;
     }
 
-    private static boolean canInsertItemIntoTopOutputSlot(SimpleContainer inventory, ItemStack output) {
-        return inventory.getItem(2).getItem() == output.getItem() || inventory.getItem(2).isEmpty();
+    private static boolean canInsertItemIntoOutputSlot(SimpleContainer inventory, ItemStack output) {
+        return inventory.getItem(3).getItem() == output.getItem() || inventory.getItem(3).isEmpty();
     }
 
-    private static boolean canInsertAmountIntoTopOutputSlot(SimpleContainer inventory) {
-        return inventory.getItem(2).getMaxStackSize() > inventory.getItem(2).getCount();
-    }
-
-    private static boolean canInsertItemIntoBottomOutputSlot(SimpleContainer inventory, ItemStack output) {
-        return inventory.getItem(5).getItem() == output.getItem() || inventory.getItem(5).isEmpty();
-    }
-
-    private static boolean canInsertAmountIntoBottomOutputSlot(SimpleContainer inventory) {
-        return inventory.getItem(5).getMaxStackSize() > inventory.getItem(5).getCount();
+    private static boolean canInsertAmountIntoOutputSlot(SimpleContainer inventory) {
+        return inventory.getItem(3).getMaxStackSize() > inventory.getItem(3).getCount();
     }
 }
