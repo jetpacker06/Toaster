@@ -16,19 +16,19 @@ import javax.annotation.Nullable;
 public class ToasterRecipe implements Recipe<SimpleContainer> {
     private final ResourceLocation id;
     private final ItemStack output;
-    private final NonNullList<Ingredient> recipeItems;
+    private final NonNullList<Ingredient> input;
 
     public ToasterRecipe(ResourceLocation id, ItemStack output,
-                               NonNullList<Ingredient> recipeItems) {
+                               NonNullList<Ingredient> input) {
         this.id = id;
         this.output = output;
-        this.recipeItems = recipeItems;
+        this.input = input;
     }
 
     @Override
     public boolean matches(SimpleContainer pContainer, net.minecraft.world.level.Level pLevel) {
-        if(recipeItems.get(0).test(pContainer.getItem(1))) {
-            return recipeItems.get(1).test(pContainer.getItem(2));
+        if(input.get(0).test(pContainer.getItem(1))) {
+            return input.get(1).test(pContainer.getItem(2));
         }
 
         return false;
