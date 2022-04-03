@@ -7,10 +7,7 @@ import com.jetpacker06.toaster.screen.slot.ModResultSlot;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -21,28 +18,53 @@ import org.jetbrains.annotations.Nullable;
 public class ToasterMenu extends AbstractContainerMenu {
     private final ToasterBlockEntity blockEntity;
     private final Level level;
+    private ContainerData data;
 
     public ToasterMenu(int windowId, Inventory inv, FriendlyByteBuf extraData) {
-        this(windowId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()));
+        this(windowId, inv, inv.player.level.getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(4));
     }
 
-    public ToasterMenu(int windowId, Inventory inv, BlockEntity entity) {
+    public ToasterMenu(int windowId, Inventory inv, BlockEntity entity, ContainerData data) {
         super(ModMenuTypes.TOASTER_MENU.get(), windowId);
         checkContainerSize(inv, 4);
         blockEntity = ((ToasterBlockEntity) entity);
         this.level = inv.player.level;
-
+        this.data = data;
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
         this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             this.addSlot(new ModFuelSlot(handler, 0, 18, 33));//fuel
             this.addSlot(new SlotItemHandler(handler, 1, 66, 19));//input 1
-            this.addSlot(new SlotItemHandler(handler, 2, 66, 45));//input 2
-            this.addSlot(new ModResultSlot(handler, 3, 114, 19));//output 1
+            this.addSlot(new ModResultSlot(handler, 2, 114, 19));//output 1
+           // this.addSlot(new SlotItemHandler(handler, 2, 66, 45));//input 2
+           // this.addSlot(new ModResultSlot(handler, 4, 114, 45));//output 2
         });
+        addDataSlots(data);
+    }
+    public boolean isCrafting() {
+        return data.get(0) > 0;
     }
 
+    public boolean hasFuel() {
+        return data.get(2) > 0;
+    }
+
+    public int getScaledProgress() {
+        int progress = this.data.get(0);
+        int maxProgress = this.data.get(1);  // Max Progress
+        int progressArrowSize = 26; // This is the width in pixels of your arrow
+
+        return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
+    }
+
+    public int getScaledFuelProgress() {
+        int fuelProgress = this.data.get(2);
+        int maxFuelProgress = this.data.get(3);
+        int fuelProgressSize = 14;
+
+        return maxFuelProgress != 0 ? (int)(((float)fuelProgress / (float)maxFuelProgress) * fuelProgressSize) : 0;
+    }
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.
     // For this container, we can see both the tile inventory's slots as well as the player inventory slots and the hotbar.
@@ -59,7 +81,7 @@ public class ToasterMenu extends AbstractContainerMenu {
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 4;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = 3;  // must be the number of slots you have!
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int index) {
