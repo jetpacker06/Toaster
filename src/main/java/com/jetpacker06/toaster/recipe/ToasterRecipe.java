@@ -11,6 +11,8 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.annotation.Nullable;
 
 public class ToasterRecipe implements Recipe<SimpleContainer> {
@@ -24,6 +26,7 @@ public class ToasterRecipe implements Recipe<SimpleContainer> {
         this.input = input;
     }
 
+    private static final Logger LOGGER = LogManager.getLogger();
     @Override
     public boolean matches(SimpleContainer pContainer, net.minecraft.world.level.Level pLevel) {
         return true;

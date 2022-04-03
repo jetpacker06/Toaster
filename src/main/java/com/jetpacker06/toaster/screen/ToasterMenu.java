@@ -26,7 +26,7 @@ public class ToasterMenu extends AbstractContainerMenu {
 
     public ToasterMenu(int windowId, Inventory inv, BlockEntity entity, ContainerData data) {
         super(ModMenuTypes.TOASTER_MENU.get(), windowId);
-        checkContainerSize(inv, 4);
+        checkContainerSize(inv, 3);
         blockEntity = ((ToasterBlockEntity) entity);
         this.level = inv.player.level;
         this.data = data;
@@ -36,9 +36,7 @@ public class ToasterMenu extends AbstractContainerMenu {
         this.blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
             this.addSlot(new ModFuelSlot(handler, 0, 18, 33));//fuel
             this.addSlot(new SlotItemHandler(handler, 1, 66, 19));//input 1
-            this.addSlot(new ModResultSlot(handler, 3, 114, 19));//output 1
-            this.addSlot(new SlotItemHandler(handler, 2, 66, 45));//input 2
-           // this.addSlot(new ModResultSlot(handler, 4, 114, 45));//output 2
+            this.addSlot(new ModResultSlot(handler, 2, 114, 19));//output 1
         });
         addDataSlots(data);
     }
@@ -81,7 +79,7 @@ public class ToasterMenu extends AbstractContainerMenu {
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 4;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = 3;  // must be the number of slots you have!
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int index) {

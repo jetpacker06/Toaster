@@ -1,13 +1,8 @@
 {
   "type": "toaster:toasting",
-  "ingredients": [
-    {
+  "input": {
       "item": "toaster:bread_slice"
     },
-    {
-      "item": "toaster:bread_slice"
-    }
-  ],
   "output": {
     "item": "toaster:toast"
   }

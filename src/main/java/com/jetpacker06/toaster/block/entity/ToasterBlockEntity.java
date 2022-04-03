@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
 import java.util.Optional;
 
 public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
-    private final ItemStackHandler itemHandler = new ItemStackHandler(4) {
+    private final ItemStackHandler itemHandler = new ItemStackHandler(3) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
@@ -176,10 +176,7 @@ public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
     private static boolean hasRecipe(ToasterBlockEntity entity) {
         Level level = entity.level;
         SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
-        for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
-            inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
-        }
-
+        inventory.setItem(0, entity.itemHandler.getStackInSlot(1));
         Optional<ToasterRecipe> match = level.getRecipeManager()
                 .getRecipeFor(ToasterRecipe.Type.INSTANCE, inventory, level);
 
@@ -190,20 +187,15 @@ public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
     private static void craftItem(ToasterBlockEntity entity) {
         Level level = entity.level;
         SimpleContainer inventory = new SimpleContainer(entity.itemHandler.getSlots());
-        for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
-            inventory.setItem(i, entity.itemHandler.getStackInSlot(i));
-        }
 
+        inventory.setItem(0, entity.itemHandler.getStackInSlot(1));
         Optional<ToasterRecipe> match = level.getRecipeManager()
                 .getRecipeFor(ToasterRecipe.Type.INSTANCE, inventory, level);
 
         if(match.isPresent()) {
             entity.itemHandler.extractItem(1,1, false);
-            entity.itemHandler.extractItem(2,1, false);
-
-            entity.itemHandler.setStackInSlot(3, new ItemStack(match.get().getResultItem().getItem(),
-                    entity.itemHandler.getStackInSlot(3).getCount() + 1));
-
+            entity.itemHandler.setStackInSlot(2, new ItemStack(match.get().getResultItem().getItem(),
+                    entity.itemHandler.getStackInSlot(2).getCount() + 1));
             entity.resetProgress();
         }
     }
@@ -213,10 +205,10 @@ public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     private static boolean canInsertItemIntoOutputSlot(SimpleContainer inventory, ItemStack output) {
-        return inventory.getItem(3).getItem() == output.getItem() || inventory.getItem(3).isEmpty();
+        return inventory.getItem(2).getItem() == output.getItem() || inventory.getItem(2).isEmpty();
     }
 
     private static boolean canInsertAmountIntoOutputSlot(SimpleContainer inventory) {
-        return inventory.getItem(3).getMaxStackSize() > inventory.getItem(3).getCount();
+        return inventory.getItem(2).getMaxStackSize() > inventory.getItem(2).getCount();
     }
 }

@@ -26,7 +26,7 @@ public class ModBlocks {
 
     //Caramel Block
     public static final RegistryObject<Block> CARAMEL_BLOCK = registerBlock("caramel_block",
-        () -> new SlabBlock(BlockBehaviour.Properties.of(Material.DIRT)
+        () -> new Block(BlockBehaviour.Properties.of(Material.DIRT)
             .strength(0.5f)
             .sound(SoundType.HONEY_BLOCK)
 
