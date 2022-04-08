@@ -202,7 +202,7 @@ public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
             entity.itemHandler.extractItem(2,1, false);
 
             entity.itemHandler.setStackInSlot(3, new ItemStack(match.get().getResultItem().getItem(),
-                    entity.itemHandler.getStackInSlot(3).getCount() + 1));
+                    entity.itemHandler.getStackInSlot(3).getCount() + 2));
 
             entity.resetProgress();
         }
@@ -217,6 +217,6 @@ public class ToasterBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     private static boolean canInsertAmountIntoOutputSlot(SimpleContainer inventory) {
-        return inventory.getItem(3).getMaxStackSize() > inventory.getItem(3).getCount();
+        return inventory.getItem(3).getMaxStackSize() > inventory.getItem(3).getCount() + 1;
     }
 }

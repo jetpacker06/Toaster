@@ -31,8 +31,9 @@ public class ToasterScreen extends AbstractContainerScreen<ToasterMenu> {
         int y = (height - imageHeight) / 2;
 
         this.blit(pPoseStack, x, y, 0, 0, imageWidth, imageHeight);
+
         if(menu.isCrafting()) {
-            blit(pPoseStack, x + 176, y + 27, 176, 14, menu.getScaledProgress(), 36);
+            blit(pPoseStack, x + 84, y + 25, 176, 19, menu.getScaledProgress(), 32);
         }
 
         if(menu.hasFuel()) {
@@ -40,7 +41,8 @@ public class ToasterScreen extends AbstractContainerScreen<ToasterMenu> {
                     14 - menu.getScaledFuelProgress(), 14, menu.getScaledFuelProgress());
         }
     }
-
+//176 22
+//84 22
     @Override
     public void render(PoseStack pPoseStack, int mouseX, int mouseY, float delta) {
         renderBackground(pPoseStack);
